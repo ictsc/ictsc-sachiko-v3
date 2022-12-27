@@ -22,6 +22,7 @@ const ProblemPage = () => {
   const router = useRouter();
 
   const {handleSubmit, control, watch} = useForm<Inputs>()
+  // answer のフォームを監視
   const watchField = watch(['answer'])
 
   const {apiClient} = useApi()
