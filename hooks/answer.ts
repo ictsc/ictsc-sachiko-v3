@@ -19,5 +19,4 @@ export const useAnswers = (id: string) => {
     answers: data?.data?.answers ?? [],
     mutate
   }
-
 }
