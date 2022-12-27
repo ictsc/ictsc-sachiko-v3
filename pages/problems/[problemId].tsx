@@ -42,6 +42,7 @@ const ProblemPage = () => {
         body: answer,
       }
     }).json<Result<AnswerResult>>()
+
     // TODO(k-shir0): 投稿に成功しましたアラートを表示
     // TODO(k-shir0): 投稿に失敗しましたアラートを表示
     console.log(response)
