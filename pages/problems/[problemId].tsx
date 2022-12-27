@@ -9,9 +9,9 @@ import ICTSCNavBar from "../../components/Navbar";
 import ICTSCCard from "../../components/Card";
 import MarkdownPreview from "../../components/MarkdownPreview";
 import LoadingPage from "../../components/LoadingPage";
-import {useProblems} from "../../hooks/problem";
 import {useApi} from "../../hooks/api";
 import {useAuth} from "../../hooks/auth";
+import {useProblems} from "../../hooks/problem";
 import {AnswerResult, Result} from "../../types/_api";
 
 type Inputs = {
