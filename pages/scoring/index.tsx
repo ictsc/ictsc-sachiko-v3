@@ -23,7 +23,6 @@ const Index = () => {
             <tr>
               <th>採点</th>
               <th>未済点 ~15分/15~19分/20分~</th>
-              <th>採点</th>
               <th>ID</th>
               <th>Code</th>
               <th>Title</th>
