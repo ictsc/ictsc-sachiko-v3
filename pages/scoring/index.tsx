@@ -24,9 +24,9 @@ const Index = () => {
               <th>採点</th>
               <th>未済点 ~15分/15~19分/20分~</th>
               <th>ID</th>
-              <th>Code</th>
-              <th>Title</th>
-              <th>Body</th>
+              <th>問題コード</th>
+              <th>タイトル</th>
+              <th>コンテンツ</th>
               <th>ポイント</th>
               <th>採点基準ポイント</th>
               <th>前提問題</th>
