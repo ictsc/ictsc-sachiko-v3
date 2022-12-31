@@ -1,3 +1,4 @@
+### 依存関係のインストール
 FROM node:16 AS deps
 
 WORKDIR /app
@@ -7,6 +8,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 
+### Next.js のビルド
 FROM node:16-alpine AS builder
 
 WORKDIR /app
@@ -17,6 +19,7 @@ COPY . .
 RUN yarn build
 
 
+### Next.js の実行
 FROM node:16-alpine AS runner
 
 ENV NODE_ENV=production
