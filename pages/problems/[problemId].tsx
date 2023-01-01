@@ -7,12 +7,12 @@ import {useForm, Controller, SubmitHandler} from "react-hook-form";
 
 import ICTSCNavBar from "../../components/Navbar";
 import ICTSCCard from "../../components/Card";
+import {ICTSCErrorAlert, ICTSCSuccessAlert} from "../../components/Alerts";
 import MarkdownPreview from "../../components/MarkdownPreview";
 import LoadingPage from "../../components/LoadingPage";
 import {useApi} from "../../hooks/api";
 import {useAuth} from "../../hooks/auth";
 import {useProblems} from "../../hooks/problem";
-import {ICTSCErrorAlert, ICTSCSuccessAlert} from "../../components/Alerts";
 
 type Inputs = {
   answer: string;
