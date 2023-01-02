@@ -4,6 +4,7 @@ import {useRouter} from "next/router";
 import Error from "next/error";
 
 import {useForm, Controller, SubmitHandler} from "react-hook-form";
+import {DateTime} from "luxon";
 
 import ICTSCNavBar from "../../components/Navbar";
 import ICTSCCard from "../../components/Card";
@@ -13,6 +14,7 @@ import LoadingPage from "../../components/LoadingPage";
 import {useApi} from "../../hooks/api";
 import {useAuth} from "../../hooks/auth";
 import {useProblems} from "../../hooks/problem";
+import {useAnswers} from "../../hooks/answer";
 
 type Inputs = {
   answer: string;
@@ -20,6 +22,7 @@ type Inputs = {
 
 const ProblemPage = () => {
   const router = useRouter();
+  const {problemId} = router.query;
 
   const {handleSubmit, control, watch, formState: {errors}} = useForm<Inputs>()
   // answer のフォームを監視
@@ -32,9 +35,9 @@ const ProblemPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState<number | null>(null);
 
-
-  const {problemId} = router.query;
   const problem = getProblem(problemId as string);
+
+  const {answers, mutate} = useAnswers(problem?.id as string);
 
   // モーダルを表示しバリデーションを行う
   const onModal: SubmitHandler<Inputs> = async () => {
@@ -51,6 +54,10 @@ const ProblemPage = () => {
     })
 
     setStatus(response.status)
+
+    if (response.ok) {
+      await mutate()
+    }
   }
 
 
@@ -67,6 +74,8 @@ const ProblemPage = () => {
         </>
     );
   }
+
+  console.log(answers)
 
 
   return (
@@ -144,6 +153,54 @@ const ProblemPage = () => {
             </form>
           </ICTSCCard>
           <div className={'text-sm pt-2'}>※ 回答は20分に1度のみです</div>
+          <div className={'divider'}/>
+          <div className={'pb-2'}>
+            定期的に自動更新されます
+          </div>
+          <div className={'overflow-x-auto'}>
+            <table className="table border table-compact w-full">
+              <thead>
+              <tr>
+                <th className={'w-[196px]'}>提出日時</th>
+                <th className={'w-[100px]'}>問題コード</th>
+                <th>問題</th>
+                <th className={'w-[100px]'}>得点</th>
+                <th className={'w-[100px]'}>チェック済み</th>
+                <th className={'w-[50px]'}></th>
+              </tr>
+              </thead>
+              <tbody>
+              {answers
+                  .sort((a, b) => {
+                    if (a.created_at < b.created_at) {
+                      return 1;
+                    }
+                    if (a.created_at > b.created_at) {
+                      return -1;
+                    }
+                    return 0;
+                  })
+                  .map((answer) => {
+                    const createdAt = DateTime.fromISO(answer.created_at)
+
+                    return (
+                        <tr key={answer.id}>
+                          <td>{createdAt.toFormat('yyyy-MM-dd HH:mm:ss')}</td>
+                          <td>{problem?.code}</td>
+                          <td>{problem?.title}</td>
+                          <td className={'text-right'}>{answer?.point ?? '--'} pt</td>
+                          <td className={'text-center'}>{answer.point != null ? '○' : '採点中'}</td>
+                          <td>
+                            <div className={'link'}>投稿内容</div>
+                          </td>
+                        </tr>
+                    );
+                  })}
+              <tr>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </>
   )
