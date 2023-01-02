@@ -33,11 +33,13 @@ const ProblemPage = () => {
   const {getProblem, isLoading} = useProblems();
   const [isPreview, setIsPreview] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAnswerId, setSelectedAnswerId] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
 
   const problem = getProblem(problemId as string);
 
-  const {answers, mutate} = useAnswers(problem?.id as string);
+  const {answers, getAnswer, mutate} = useAnswers(problem?.id as string);
+  const selectedAnswer = getAnswer(selectedAnswerId as string);
 
   // モーダルを表示しバリデーションを行う
   const onModal: SubmitHandler<Inputs> = async () => {
@@ -191,7 +193,8 @@ const ProblemPage = () => {
                           <td className={'text-right'}>{answer?.point ?? '--'} pt</td>
                           <td className={'text-center'}>{answer.point != null ? '○' : '採点中'}</td>
                           <td>
-                            <div className={'link'}>投稿内容</div>
+                            <a href={'#preview'} className={'link'}
+                               onClick={() => setSelectedAnswerId(answer.id)}>投稿内容</a>
                           </td>
                         </tr>
                     );
@@ -201,6 +204,29 @@ const ProblemPage = () => {
               </tbody>
             </table>
           </div>
+          {selectedAnswer != null && (
+              <div className={'pt-8'} id={'preview'}>
+                <ICTSCCard>
+                  <div className={'flex flex-row justify-between pb-4'}>
+                    <div className={'flex flex-row items-center'}>
+                      {selectedAnswer.point !== null && (
+                          <div className={'pr-2'}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3}
+                                 stroke="green" className="w-6 h-6">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                            </svg>
+                          </div>
+                      )}
+                      チーム: {selectedAnswer.user_group.name}({selectedAnswer.user_group.organization})
+                    </div>
+                    <div>
+                      {DateTime.fromISO(selectedAnswer.created_at).toFormat('yyyy-MM-dd HH:mm:ss')}
+                    </div>
+                  </div>
+                  <MarkdownPreview content={selectedAnswer.body}/>
+                </ICTSCCard>
+              </div>
+          )}
         </div>
       </>
   )
