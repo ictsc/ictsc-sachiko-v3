@@ -12,6 +12,7 @@ const MarkdownPreview = ({className, content}: Props) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+
     const codeBlockContainers = ref.current?.querySelectorAll('div.code-block-container')
     codeBlockContainers?.forEach((codeBlockContainer) => {
       codeBlockContainer.className = 'relative'
