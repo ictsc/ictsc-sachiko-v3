@@ -4,7 +4,6 @@ import ICTSCNavBar from "../components/Navbar";
 import ICTSCCard from "../components/Card";
 import LoadingPage from "../components/LoadingPage";
 import { useAuth } from "../hooks/auth";
-import { useUserGroups } from "../hooks/userGroups";
 import { useRanking } from "../hooks/ranking";
 
 const TeamInfo = () => {
