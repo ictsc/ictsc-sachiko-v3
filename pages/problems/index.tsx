@@ -8,8 +8,15 @@ import { useNotice } from "../../hooks/notice";
 import { shortRule, site } from "../../components/_const";
 import ICTSCCard from "../../components/Card";
 import MarkdownPreview from "../../components/MarkdownPreview";
+import { dismissNoticeIdsState } from "../../hooks/state/recoil";
+import { useRecoilState } from "recoil";
+import Link from "next/link";
 
 const Problems = () => {
+  const [dismissNoticeIds, setDismissNoticeIds] = useRecoilState(
+    dismissNoticeIdsState
+  );
+
   const { problems, isLoading } = useProblems();
   const { notices, isLoading: isNoticeLoading } = useNotice();
 
@@ -36,55 +43,73 @@ const Problems = () => {
           </ICTSCCard>
         </div>
       )}
-      {notices?.map((notice) => (
-        <div key={notice.source_id} className={"container-ictsc"}>
-          <div className="bg-gray-200 p-4 rounded rounded-lg  shadow-lg grow">
-            <div>
-              <div className={"flex flex-col"}>
-                <div
-                  className={
-                    "flex flex-row justify-between justify-items-center"
-                  }
-                >
-                  <div className={"flex flex-row"}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      className="stroke-info flex-shrink-0 w-6 h-6"
+      {notices
+        ?.filter((notice) => !dismissNoticeIds.includes(notice.source_id))
+        .map((notice) => (
+          <div key={notice.source_id} className={"container-ictsc"}>
+            <div className="bg-gray-200 p-4 rounded rounded-lg  shadow-lg grow">
+              <div>
+                <div className={"flex flex-col"}>
+                  <div
+                    className={
+                      "flex flex-row justify-between justify-items-center"
+                    }
+                  >
+                    <div className={"flex flex-row"}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        className="stroke-info flex-shrink-0 w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                      </svg>
+                      <span className={"pl-2 font-bold"}>{notice.title}</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        // sourceId の重複を排除しくっつける
+                        setDismissNoticeIds([
+                          ...new Set([...dismissNoticeIds, notice.source_id]),
+                        ]);
+                      }}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    <span className={"pl-2 font-bold"}>{notice.title}</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
                   </div>
-                  <button className={"border"}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                  <MarkdownPreview content={notice.body ?? ""} />
                 </div>
-                <MarkdownPreview content={notice.body ?? ""} />
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      <div
+        className={
+          "container-ictsc flex flex-row justify-end text-primary font-bold"
+        }
+      >
+        <Link href={"/notices"} className={"link link-hover"}>
+          おしらせ一覧へ→
+        </Link>
+      </div>
       <ul
         className={
           "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-8 container-ictsc"
