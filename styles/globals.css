@@ -4,9 +4,11 @@
 
 .container-ictsc {
   @apply max-w-[1024px];
+  @apply min-w-[100vw];
   @apply mx-auto;
   @apply px-4;
   @apply pb-8;
+  overflow: scroll;
 }
 
 .title-ictsc {

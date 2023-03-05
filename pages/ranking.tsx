@@ -30,7 +30,8 @@ const Ranking = () => {
       </Head>
       <ICTSCNavBar />
       <h1 className={"title-ictsc text-center py-12"}>スコアボード</h1>
-      <div className={"container-ictsc"}>
+      <div className={
+        "container-ictsc"}>
         <table className="table border w-full">
           <thead>
             <tr>
