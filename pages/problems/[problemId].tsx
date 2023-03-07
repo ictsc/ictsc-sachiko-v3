@@ -453,7 +453,7 @@ const AnswerListSection = ({ problem }: AnswerSectionProps) => {
               {isPreviewAnswer ? (
                 <MarkdownPreview content={selectedAnswer.body} />
               ) : (
-                <textarea className="textarea textarea-bordered mt-4 px-2 min-h-[300px]">
+                <textarea readOnly className="textarea textarea-bordered mt-4 px-2 min-h-[300px]">
                   {selectedAnswer.body}
                 </textarea>
               )}
