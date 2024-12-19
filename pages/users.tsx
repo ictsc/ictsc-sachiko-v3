@@ -112,7 +112,7 @@ function Users() {
                       )}
                       {(member.profile?.twitter_id ?? "") !== "" && (
                         <a
-                          href={`https://twitter.com/${member.profile?.twitter_id}`}
+                          href={`https://x.com/${member.profile?.twitter_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn btn-circle btn-ghost btn-xs"
