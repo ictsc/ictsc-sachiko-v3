@@ -151,7 +151,7 @@ function Profile() {
             </div>
             <div className="form-control pt-4">
               <div className="label">
-                <span className="label-text">Twitter ID</span>
+                <span className="label-text">X ID</span>
               </div>
               <input
                 {...register("twitter_id")}
