@@ -20,7 +20,7 @@ function GithubIcon() {
   );
 }
 
-function TwitterIcon() {
+function XIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ function Users() {
                           rel="noopener noreferrer"
                           className="btn btn-circle btn-ghost btn-xs"
                         >
-                          <TwitterIcon />
+                          <XIcon />
                         </a>
                       )}
                       {(member.profile?.facebook_id ?? "") !== "" && (
