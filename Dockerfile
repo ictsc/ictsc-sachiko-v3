@@ -9,7 +9,7 @@ RUN yarn install --frozen-lockfile
 
 
 ## Font のビルド
-FROM alpine:3.14 AS font-builder
+FROM alpine:3.24 AS font-builder
 
 WORKDIR /font
 
